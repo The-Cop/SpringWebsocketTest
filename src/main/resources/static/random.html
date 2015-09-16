@@ -15,12 +15,12 @@
         }
 
         function connect() {
-            var socket = new SockJS('/sendmessage');
+            var socket = new SockJS('/random');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/chat', function (message) {
+                stompClient.subscribe('/topic/random', function (message) {
                     showGreeting(JSON.parse(message.body).author, JSON.parse(message.body).message);
                 });
             });
@@ -34,10 +34,9 @@
             console.log("Disconnected");
         }
 
-        function sendMessage() {
+        function sendName() {
             var name = document.getElementById('name').value;
-            var msg = document.getElementById('msg').value;
-            stompClient.send("/app/sendmessage", {}, JSON.stringify({'author': name, 'message': msg}));
+            stompClient.send("/app/random");
         }
 
         function showGreeting(author, message) {
@@ -59,8 +58,7 @@
     </div>
     <div id="conversationDiv">
         <label>What is your name?</label><input type="text" id="name"/>
-        <label>Message</label><input type="text" id="msg"/>
-        <button id="sendMessage" onclick="sendMessage();">Send it</button>
+        <button id="sendName" onclick="sendName();">Get random message</button>
         <p id="response"></p>
     </div>
 </div>
