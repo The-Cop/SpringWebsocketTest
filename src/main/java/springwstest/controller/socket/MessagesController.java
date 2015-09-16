@@ -1,4 +1,4 @@
-package springwstest.controller;
+package springwstest.controller.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
