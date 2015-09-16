@@ -20,5 +20,11 @@ public class MessagesController {
         Thread.sleep(1000);
         return messageService.getRandomMessage();
     }
+    @MessageMapping("/sendmessage")
+    @SendTo("/topic/chat")
+    public Message sendMessage(Message message) throws InterruptedException {
+        //message can be stored in message storage (cap)
+        return message;
+    }
 
 }
