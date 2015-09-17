@@ -11,6 +11,6 @@ public class SimpleMvcController {
     @RequestMapping("/")
     public String welcome(Model model) {
         model.addAttribute("message", "Welcome! This is passed through mvc!");
-        return "ThymeleafMessaging";
+        return "SimpleWS";
     }
 }

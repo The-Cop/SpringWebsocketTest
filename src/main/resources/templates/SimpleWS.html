@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello WebSocket</title>
+    <script type="text/javascript">
+
+  var wsUri = "ws://localhost:8080/myHandler";
+  var output;
+
+  function init() {
+      output = document.getElementById("output");
+      testWebSocket();
+  }
+
+  function testWebSocket() {
+      websocket = new WebSocket(wsUri);
+      websocket.onopen = function (evt) {
+          onOpen(evt)
+      };
+      websocket.onclose = function (evt) {
+          onClose(evt)
+      };
+      websocket.onmessage = function (evt) {
+          onMessage(evt)
+      };
+      websocket.onerror = function (evt) {
+          onError(evt)
+      };
+  }
+
+  function onOpen(evt) {
+      writeToScreen("CONNECTED");
+  }
+
+  function onClose(evt) {
+      writeToScreen("DISCONNECTED");
+  }
+
+  function onMessage(evt) {
+      writeToScreen(evt.data);
+  }
+
+  function onError(evt) {
+      writeToScreen('<span style="color: #39ffb5;">ERROR:</span> ' + evt.data);
+  }
+
+  function sendMessage(message) {
+      var name = document.getElementById('name').value;
+      var msg = document.getElementById('msg').value;
+      var compiled = name + ": " + msg;
+      writeToScreen("SENT: " + compiled);
+      websocket.send(compiled);
+  }
+
+  function writeToScreen(message) {
+      var response = document.getElementById('response');
+      var p = document.createElement('p');
+      p.style.wordWrap = 'break-word';
+      p.appendChild(document.createTextNode((message)));
+      response.appendChild(p);
+  }
+
+  window.addEventListener("load", init, false);
+    </script>
+</head>
+<body>
+ <h1 th:inline="text">[[${message}]]!</h1>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div>
+
+    <div id="conversationDiv">
+        <label>What is your name?</label><input type="text" id="name"/>
+        <label>Message</label><input type="text" id="msg"/>
+        <button id="sendMessage" onclick="sendMessage();">Send it</button>
+        <p id="response"></p>
+    </div>
+</div>
+</body>
+</html>
